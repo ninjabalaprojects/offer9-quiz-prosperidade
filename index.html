@@ -1075,7 +1075,7 @@ function goTo(n) {
     clearAnyTimer(testTimer); testTimer = null;
     clearAnyTimer(whTimer);   whTimer   = null;
   }
-  if (n === 7) { loadVturb(); setTimeout(startLoading, 0); }
+  if (n === 7) { loadVturb(); setTimeout(startLoading, 250); }
 }
 
 /* ─ SLIDESHOW step 2 ──────────────────────── */
@@ -1194,41 +1194,34 @@ function activateStep8() {
 function startLoading() {
   var pEl = document.getElementById('pctText');
   var bEl = document.getElementById('loadBar');
+  var done = false;
 
-  /* Fallback absoluto: vai para VSL em 5s mesmo sem animação */
-  var fallbackTimer = setTimeout(function() {
-    fallbackTimer = null;
+  /* Fallback absoluto: garante transição para VSL em 4s */
+  var guard = setTimeout(function() {
+    if (done) return;
+    done = true;
     activateStep8();
-  }, 5000);
+  }, 4000);
 
-  if (!pEl || !bEl) return; /* elementos ausentes — fallback cuida da transição */
+  if (!pEl || !bEl) return;
 
-  var DURATION = 4000; /* 4 segundos para 99% */
-  var startTime = performance.now();
+  var pct = 0;
+  pEl.textContent = '0%';
+  bEl.style.width = '0%';
 
-  function tick(now) {
-    if (fallbackTimer === null) return; /* fallback já disparou, para */
-    var elapsed = now - startTime;
-    var t = Math.min(elapsed / DURATION, 1);
-    /* curva não-linear: rápido no início e fim, lento no meio */
-    var pct = Math.round(t < 0.5
-      ? 2 * t * t * 99
-      : (1 - Math.pow(-2 * t + 2, 2) / 2) * 99);
+  /* Incrementa 1% a cada 35ms → ~3500ms para 100% */
+  var iv = setInterval(function() {
+    if (done) { clearInterval(iv); return; }
+    pct = Math.min(pct + 1, 100);
     pEl.textContent = pct + '%';
     bEl.style.width  = pct + '%';
-
-    if (t < 1) {
-      requestAnimationFrame(tick);
-    } else {
-      pEl.textContent = '100%';
-      bEl.style.width  = '100%';
-      clearTimeout(fallbackTimer);
-      fallbackTimer = null;
-      setTimeout(activateStep8, 500);
+    if (pct >= 100) {
+      clearInterval(iv);
+      clearTimeout(guard);
+      done = true;
+      setTimeout(activateStep8, 400);
     }
-  }
-
-  requestAnimationFrame(tick);
+  }, 35);
 }
 </script>
 
