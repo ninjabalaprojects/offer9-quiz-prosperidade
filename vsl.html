@@ -22,65 +22,181 @@
   <link rel="dns-prefetch" href="https://images.converteai.net">
   <link rel="dns-prefetch" href="https://license.vturb.com">
   <script>var s=document.createElement("script");s.src="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/sdk.js",s.async=!0,document.head.appendChild(s);</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
-      min-height: 100%;
+      height: 100%;
+      font-family: 'Inter', system-ui, sans-serif;
       background-color: #1c1610;
       background-image: url('img quiz/imagem fundo.webp');
       background-size: cover;
       background-position: center center;
       background-attachment: fixed;
-      font-family: 'Inter', system-ui, sans-serif;
-      color: #e8dcc8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    @supports (-webkit-touch-callout: none) {
+      body { background-attachment: scroll; }
+    }
+    @media (min-width: 480px) {
+      body { padding: 24px 18px 36px; }
+      #app {
+        border-radius: 20px;
+        min-height: auto;
+        border: 1.5px solid #3a2e0a;
+        box-shadow:
+          0 0 0 1px rgba(180,130,0,0.22),
+          0 0 32px rgba(140,90,0,0.30),
+          0 24px 70px rgba(0,0,0,0.80),
+          inset 1px 0 0 rgba(255,210,80,0.07),
+          inset -1px 0 0 rgba(255,210,80,0.07);
+      }
+    }
+
+    #app {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100dvh;
+      background: rgba(10,11,18,0.93);
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 24px 16px 60px;
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: auto;
+      border-left:  1.5px solid #3a2e0a;
+      border-right: 1.5px solid #3a2e0a;
+      border-bottom: 1.5px solid #3a2e0a;
+      box-shadow:
+        0 0 0 1px rgba(180,130,0,0.18),
+        0 0 28px rgba(140,90,0,0.25),
+        0 20px 60px rgba(0,0,0,0.75),
+        inset 1px 0 0 rgba(255,210,80,0.06),
+        inset -1px 0 0 rgba(255,210,80,0.06);
     }
-    .vsl-container {
+
+    /* Progress bar — 100% */
+    .prog-wrap {
       width: 100%;
-      max-width: 440px;
+      height: 5px;
+      background: #1a1810;
+      flex-shrink: 0;
     }
-    h2 {
+    .prog-fill {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #8a5e00, #d4a020, #f5d060, #d4a020);
+    }
+
+    /* Label pill */
+    .label-wrap {
+      display: flex;
+      justify-content: center;
+      padding: 12px 20px 0;
+      flex-shrink: 0;
+    }
+    .label-pill {
+      background: linear-gradient(180deg, #262218 0%, #171410 60%, #1e1b10 100%);
+      border: 1px solid #4a3c10;
+      border-radius: 30px;
+      padding: 8px 22px;
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #f0c84a;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      text-align: center;
+      white-space: nowrap;
+      box-shadow:
+        0 1px 0 rgba(255,210,80,0.20) inset,
+        0 -1px 0 rgba(0,0,0,0.5) inset,
+        0 2px 10px rgba(0,0,0,0.65),
+        0 0 14px rgba(180,130,0,0.18);
+      text-shadow: 0 0 10px rgba(240,200,60,0.55), 0 1px 3px rgba(0,0,0,0.9);
+      position: relative;
+    }
+    .label-pill::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 12%; right: 12%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,220,100,0.4), transparent);
+      border-radius: 30px;
+    }
+
+    /* Content */
+    .vsl-content {
+      display: flex;
+      flex-direction: column;
+      padding: 20px 22px 40px;
+      flex: 1;
+    }
+
+    .title {
       font-family: 'Playfair Display', Georgia, serif;
       font-size: 22px;
-      font-weight: 800;
-      color: #f5d060;
+      font-weight: 900;
+      color: #ffffff;
       text-align: center;
       line-height: 1.35;
-      margin-bottom: 20px;
+      margin-top: 14px;
+      margin-bottom: 18px;
+      letter-spacing: -0.3px;
     }
-    h2 em {
-      font-style: italic;
-      color: #e8dcc8;
+    .title em { font-style: normal; color: #f5d060; }
+
+    /* VTurb wrapper */
+    .player-wrap {
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
     }
+
     .vsl-note {
-      font-size: 13px;
-      color: #b8b0a0;
+      font-size: 12px;
+      color: #6b6458;
       text-align: center;
-      margin-top: 16px;
+      margin-top: 14px;
       line-height: 1.6;
+      font-family: 'Inter', sans-serif;
     }
     .vsl-note strong { color: #c9a227; }
   </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 </head>
 <body>
-  <div class="vsl-container">
-    <h2>Ahora escucha con atención: <em>este mensaje es para ti</em></h2>
+<div id="app">
 
-    <div id="ifr_6a518ffa011c00d98c0aa7fd_wrapper" style="margin: 0 auto; width: 100%; max-width: 400px;">
-      <div style="position: relative; padding: 177.77777777777777% 0 0 0;" id="ifr_6a518ffa011c00d98c0aa7fd_aspect">
-        <iframe frameborder="0" allowfullscreen src="about:blank" id="ifr_6a518ffa011c00d98c0aa7fd" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" referrerpolicy="origin" onload="this.onload=null,this.src='https://scripts.converteai.net/29f9c03e-6192-4476-9f33-ccf0b7631e12/players/6a518ffa011c00d98c0aa7fd/v4/embed.html'+(location.search||'?')+'&vl='+encodeURIComponent(location.href)"></iframe>
+  <!-- PROGRESS BAR — 100% -->
+  <div class="prog-wrap">
+    <div class="prog-fill"></div>
+  </div>
+
+  <!-- STEP LABEL -->
+  <div class="label-wrap">
+    <div class="label-pill">ORACIÓN LIBERADA</div>
+  </div>
+
+  <div class="vsl-content">
+    <h2 class="title">Ahora escucha con atención: <em>este mensaje es para ti</em></h2>
+
+    <div class="player-wrap">
+      <div id="ifr_6a518ffa011c00d98c0aa7fd_wrapper" style="margin: 0 auto; width: 100%;">
+        <div style="position: relative; padding: 177.77777777777777% 0 0 0;" id="ifr_6a518ffa011c00d98c0aa7fd_aspect">
+          <iframe frameborder="0" allowfullscreen src="about:blank" id="ifr_6a518ffa011c00d98c0aa7fd" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" referrerpolicy="origin" onload="this.onload=null,this.src='https://scripts.converteai.net/29f9c03e-6192-4476-9f33-ccf0b7631e12/players/6a518ffa011c00d98c0aa7fd/v4/embed.html'+(location.search||'?')+'&vl='+encodeURIComponent(location.href)"></iframe>
+        </div>
       </div>
     </div>
 
     <p class="vsl-note">Mira hasta el <strong>final</strong> para recibir la orientación completa.</p>
   </div>
+
+</div><!-- /app -->
 
 <!-- ── UTM → Green checkout passthrough ─────────────────────────── -->
 <script>
