@@ -1177,13 +1177,23 @@ function startLoading() {
   ];
   let si=0, t0=null, from=0, done=false;
 
-  /* garante que goTo(8) é chamado uma única vez */
+  /* transição direta step-7 → step-8, sem depender do estado de cur */
   function finish() {
     if (done) return;
     done = true;
     pEl.textContent = '100%';
     bEl.style.width  = '100%';
-    setTimeout(() => goTo(8), 500);
+    setTimeout(() => {
+      const s7 = document.getElementById('step-7');
+      const s8 = document.getElementById('step-8');
+      s7.classList.remove('active', 'leaving');
+      s8.classList.add('active');
+      cur = 8;
+      document.getElementById('stepLabel').textContent = CFG[8].label;
+      document.getElementById('progBar').style.width   = CFG[8].pct + '%';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      loadVturb();
+    }, 500);
   }
 
   /* fallback: se rAF travar (aba em bg, tela bloqueada), avança mesmo assim */
