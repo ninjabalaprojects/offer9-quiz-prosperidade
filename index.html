@@ -1055,7 +1055,7 @@ function goTo(n) {
     cur = n;
     document.getElementById('stepLabel').textContent   = CFG[n].label;
     document.getElementById('progBar').style.width     = CFG[n].pct + '%';
-    window.scrollTo({top:0, behavior:'smooth'});
+    document.getElementById('app').scrollTop = 0;
     if (n === 2) { slideIdx = 0; updateSlide(); startSlideshow(); }
     if (n !== 2 && slideTimer) { clearInterval(slideTimer); slideTimer = null; }
     if (n === 6) {
@@ -1137,13 +1137,10 @@ function startSlideshow() {
 
 function updateSlide() {
   const track = document.getElementById('slideTrack');
-  const dots  = document.querySelectorAll('.sdot');
+  const dots  = document.querySelectorAll('#slideDots .sdot');
   if (track) track.style.transform = `translateX(-${slideIdx * 100}%)`;
   dots.forEach((d,i) => d.classList.toggle('on', i === slideIdx));
 }
-
-/* Restart slideshow when step 2 becomes active */
-const _origGoTo = null;
 
 /* ─ NAME ──────────────────────────────────── */
 function handleName() {
@@ -1205,7 +1202,7 @@ function startLoading() {
           cur = 8;
           document.getElementById('stepLabel').textContent = CFG[8].label;
           document.getElementById('progBar').style.width   = CFG[8].pct + '%';
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          document.getElementById('app').scrollTop = 0;
         }, 500);
       }, 300);
     }
