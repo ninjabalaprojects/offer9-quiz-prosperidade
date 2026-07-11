@@ -1022,16 +1022,24 @@ const CFG = {
   8:{ label:'ORACIÓN LIBERADA',        pct:100 },
 };
 
-/* ─ VTURB — injeta iframe apenas ao entrar no step 8 ── */
+/* ─ VTURB — injeta iframe + sdk apenas ao entrar no step 8 ── */
 function loadVturb() {
   var c = document.getElementById('vturb-container');
   if (!c || c.dataset.loaded) return;
   c.dataset.loaded = '1';
 
+  /* sdk.js — necessário para o botão CTA ser injetado no DOM pai */
+  var sdk = document.createElement('script');
+  sdk.src = 'https://scripts.converteai.net/lib/js/smartplayer-wc/v4/sdk.js';
+  sdk.async = true;
+  document.head.appendChild(sdk);
+
   var wrapper = document.createElement('div');
+  wrapper.id = 'ifr_6a518ffa011c00d98c0aa7fd_wrapper';
   wrapper.style.cssText = 'margin:0 auto;width:100%;max-width:400px;';
 
   var aspect = document.createElement('div');
+  aspect.id = 'ifr_6a518ffa011c00d98c0aa7fd_aspect';
   aspect.style.cssText = 'position:relative;padding:177.77777777777777% 0 0 0;';
 
   var ifr = document.createElement('iframe');
