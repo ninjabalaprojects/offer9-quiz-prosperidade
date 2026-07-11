@@ -158,8 +158,8 @@ body {
   flex-direction: column;
   padding: 20px 22px 30px;
 }
-.step.active  { display:flex; animation: fadeUp 0.4s ease forwards; will-change: transform, opacity; }
-.step.leaving { animation: fadeOut 0.24s ease forwards; pointer-events:none; will-change: transform, opacity; }
+.step.active  { display:flex; animation: fadeUp 0.35s ease both; }
+.step.leaving { animation: fadeOut 0.22s ease both; pointer-events:none; }
 
 /* ─── TYPOGRAPHY ──────────────────────────────────────── */
 .title {
@@ -1051,7 +1051,9 @@ function goTo(n) {
   oldEl.classList.add('leaving');
   setTimeout(() => {
     oldEl.classList.remove('active','leaving');
+    oldEl.style.opacity = '';
     newEl.classList.add('active');
+    newEl.style.opacity = '';
     cur = n;
     document.getElementById('stepLabel').textContent   = CFG[n].label;
     document.getElementById('progBar').style.width     = CFG[n].pct + '%';
@@ -1198,7 +1200,9 @@ function startLoading() {
           var s7 = document.getElementById('step-7');
           var s8 = document.getElementById('step-8');
           s7.classList.remove('active', 'leaving');
+          s7.style.opacity = '';
           s8.classList.add('active');
+          s8.style.opacity = '';
           cur = 8;
           document.getElementById('stepLabel').textContent = CFG[8].label;
           document.getElementById('progBar').style.width   = CFG[8].pct + '%';
