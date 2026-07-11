@@ -22,12 +22,15 @@
   <link rel="dns-prefetch" href="https://images.converteai.net">
   <link rel="dns-prefetch" href="https://license.vturb.com">
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
 
 /* ─── RESET ──────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
+/* elimina delay de 300ms em taps mobile */
+a, button, [onclick] { touch-action: manipulation; }
 body {
   font-family: 'Inter', system-ui, sans-serif;
   min-height: 100%;
@@ -36,6 +39,7 @@ body {
   background-size: cover;
   background-position: center center;
   background-attachment: fixed;
+  /* iOS não suporta background-attachment:fixed — fallback */
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -67,6 +71,10 @@ body {
     /* brilho interno sutil */
     inset 1px 0 0 rgba(255,210,80,0.06),
     inset -1px 0 0 rgba(255,210,80,0.06);
+}
+/* iOS Safari: background-attachment:fixed trava o scroll — usa scroll no mobile */
+@supports (-webkit-touch-callout: none) {
+  body { background-attachment: scroll; }
 }
 @media (min-width: 480px) {
   body { padding: 24px 18px 36px; }
@@ -150,8 +158,8 @@ body {
   flex-direction: column;
   padding: 20px 22px 30px;
 }
-.step.active  { display:flex; animation: fadeUp 0.4s ease forwards; }
-.step.leaving { animation: fadeOut 0.24s ease forwards; pointer-events:none; }
+.step.active  { display:flex; animation: fadeUp 0.4s ease forwards; will-change: transform, opacity; }
+.step.leaving { animation: fadeOut 0.24s ease forwards; pointer-events:none; will-change: transform, opacity; }
 
 /* ─── TYPOGRAPHY ──────────────────────────────────────── */
 .title {
@@ -775,7 +783,7 @@ vturb-smartplayer {
 
       <!-- ÁNGEL IMAGE -->
       <div class="img-box" style="height:auto; margin:14px 0;">
-        <img src="img quiz/e1.jpg" alt="Ángel" style="width:100%; border-radius:10px; display:block;"/>
+        <img src="img quiz/e1.jpg" alt="Ángel" fetchpriority="high" decoding="async" style="width:100%; border-radius:10px; display:block;"/>
       </div>
 
       <div class="instr-box" style="margin-bottom:14px;">
@@ -813,10 +821,10 @@ vturb-smartplayer {
 
         <div class="slideshow-wrap">
           <div class="slideshow-track" id="slideTrack">
-            <div class="slide-item"><img src="img quiz/e2dp1.webp" alt="Testimonio 1"/></div>
-            <div class="slide-item"><img src="img quiz/e2dp2.webp" alt="Testimonio 2"/></div>
-            <div class="slide-item"><img src="img quiz/e2dp3.webp" alt="Testimonio 3"/></div>
-            <div class="slide-item"><img src="img quiz/e2dp4.webp" alt="Testimonio 4"/></div>
+            <div class="slide-item"><img src="img quiz/e2dp1.webp" alt="Testimonio 1" loading="lazy" decoding="async"/></div>
+            <div class="slide-item"><img src="img quiz/e2dp2.webp" alt="Testimonio 2" loading="lazy" decoding="async"/></div>
+            <div class="slide-item"><img src="img quiz/e2dp3.webp" alt="Testimonio 3" loading="lazy" decoding="async"/></div>
+            <div class="slide-item"><img src="img quiz/e2dp4.webp" alt="Testimonio 4" loading="lazy" decoding="async"/></div>
           </div>
         </div>
 
@@ -922,9 +930,9 @@ vturb-smartplayer {
         <button class="slide-arr left"  onclick="manualTest(-1)">&#8249;</button>
         <div class="test-imgs-wrap">
           <div class="test-img-slide" id="testImgTrack">
-            <div class="test-img-item"><img src="img quiz/test1.webp" alt="Testimonio 1"/></div>
-            <div class="test-img-item"><img src="img quiz/test2.jpg"  alt="Testimonio 2"/></div>
-            <div class="test-img-item"><img src="img quiz/test3.png"  alt="Testimonio 3"/></div>
+            <div class="test-img-item"><img src="img quiz/test1.webp" alt="Testimonio 1" loading="lazy" decoding="async"/></div>
+            <div class="test-img-item"><img src="img quiz/test2.jpg"  alt="Testimonio 2" loading="lazy" decoding="async"/></div>
+            <div class="test-img-item"><img src="img quiz/test3.png"  alt="Testimonio 3" loading="lazy" decoding="async"/></div>
           </div>
         </div>
         <button class="slide-arr right" onclick="manualTest(1)">&#8250;</button>
@@ -945,10 +953,10 @@ vturb-smartplayer {
         <button class="slide-arr left"  onclick="manualWh(-1)">&#8249;</button>
         <div class="wh-imgs-wrap">
           <div class="wh-img-slide" id="whImgTrack">
-            <div class="wh-img-item"><img src="img quiz/wh1.png" alt="Testimonio WhatsApp 1"/></div>
-            <div class="wh-img-item"><img src="img quiz/wh2.png" alt="Testimonio WhatsApp 2"/></div>
-            <div class="wh-img-item"><img src="img quiz/wh3.png" alt="Testimonio WhatsApp 3"/></div>
-            <div class="wh-img-item"><img src="img quiz/wh4.png" alt="Testimonio WhatsApp 4"/></div>
+            <div class="wh-img-item"><img src="img quiz/wh1.png" alt="Testimonio WhatsApp 1" loading="lazy" decoding="async"/></div>
+            <div class="wh-img-item"><img src="img quiz/wh2.png" alt="Testimonio WhatsApp 2" loading="lazy" decoding="async"/></div>
+            <div class="wh-img-item"><img src="img quiz/wh3.png" alt="Testimonio WhatsApp 3" loading="lazy" decoding="async"/></div>
+            <div class="wh-img-item"><img src="img quiz/wh4.png" alt="Testimonio WhatsApp 4" loading="lazy" decoding="async"/></div>
           </div>
         </div>
         <button class="slide-arr right" onclick="manualWh(1)">&#8250;</button>
@@ -979,7 +987,7 @@ vturb-smartplayer {
       <p class="load-sub">Tu mensaje está siendo preparado con cuidado.</p>
 
       <div class="img-box" style="height:auto;">
-        <img src="img quiz/orando.jpg" alt="Personas orando" style="width:100%; display:block; border-radius:12px;"/>
+        <img src="img quiz/orando.jpg" alt="Personas orando" loading="lazy" decoding="async" style="width:100%; display:block; border-radius:12px;"/>
       </div>
 
       <p class="load-note">
