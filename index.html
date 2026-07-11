@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Oración de Prosperidad</title>
+  <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+  <link rel="preload" href="https://scripts.converteai.net/29f9c03e-6192-4476-9f33-ccf0b7631e12/players/6a518ffa011c00d98c0aa7fd/v4/player.js" as="script">
+  <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
+  <link rel="preload" href="https://cdn.converteai.net/29f9c03e-6192-4476-9f33-ccf0b7631e12/6a518fd9a29bb525013f3324/main.m3u8" as="fetch">
+  <link rel="dns-prefetch" href="https://cdn.converteai.net">
+  <link rel="dns-prefetch" href="https://scripts.converteai.net">
+  <link rel="dns-prefetch" href="https://images.converteai.net">
+  <link rel="dns-prefetch" href="https://license.vturb.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+
+/* ─── RESET ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100%;
+  background-color: #1c1610;
+  background-image: url('img quiz/imagem fundo.webp');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── CARD / APP ──────────────────────────────────────── */
+#app {
+  width: 100%;
+  max-width: 430px;
+  min-height: 100dvh;
+  background: rgba(10,11,18,0.93);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* Moldura dourada igual ao original */
+  border-left:  1.5px solid #3a2e0a;
+  border-right: 1.5px solid #3a2e0a;
+  border-bottom:1.5px solid #3a2e0a;
+  box-shadow:
+    /* brilho externo dourado */
+    0 0 0 1px rgba(180,130,0,0.18),
+    0 0 28px rgba(140,90,0,0.25),
+    /* sombra escura profunda */
+    0 20px 60px rgba(0,0,0,0.75),
+    /* brilho interno sutil */
+    inset 1px 0 0 rgba(255,210,80,0.06),
+    inset -1px 0 0 rgba(255,210,80,0.06);
+}
+@media (min-width: 480px) {
+  body { padding: 24px 18px 36px; }
+  #app {
+    border-radius: 20px;
+    min-height: auto;
+    border: 1.5px solid #3a2e0a;
+    box-shadow:
+      0 0 0 1px rgba(180,130,0,0.22),
+      0 0 32px rgba(140,90,0,0.30),
+      0 24px 70px rgba(0,0,0,0.80),
+      inset 1px 0 0 rgba(255,210,80,0.07),
+      inset -1px 0 0 rgba(255,210,80,0.07);
+  }
+}
+
+/* ─── PROGRESS BAR (top) ──────────────────────────────── */
+.prog-wrap {
+  width: 100%;
+  height: 5px;
+  background: #1a1810;
+  flex-shrink: 0;
+}
+.prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8a5e00, #d4a020, #f5d060, #d4a020);
+  transition: width 0.75s cubic-bezier(.4,0,.2,1);
+  width: 8%;
+}
+
+/* ─── STEP LABEL PILL ─────────────────────────────────── */
+.label-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 12px 20px 0;
+  flex-shrink: 0;
+}
+.label-pill {
+  background: linear-gradient(180deg, #262218 0%, #171410 60%, #1e1b10 100%);
+  border: 1px solid #4a3c10;
+  border-radius: 30px;
+  padding: 8px 22px;
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #f0c84a;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow:
+    0 1px 0 rgba(255,210,80,0.20) inset,
+    0 -1px 0 rgba(0,0,0,0.5) inset,
+    0 2px 10px rgba(0,0,0,0.65),
+    0 0 14px rgba(180,130,0,0.18);
+  text-shadow: 0 0 10px rgba(240,200,60,0.55), 0 1px 3px rgba(0,0,0,0.9);
+  position: relative;
+}
+.label-pill::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 12%; right: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,220,100,0.4), transparent);
+  border-radius: 30px;
+}
+
+/* ─── ANIMATIONS ──────────────────────────────────────── */
+@keyframes fadeUp    { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeOut   { from{opacity:1;transform:translateY(0)} to{opacity:0;transform:translateY(-12px)} }
+@keyframes pulse     { 0%,100%{opacity:1} 50%{opacity:.45} }
+@keyframes btnGlow   { 0%,100%{box-shadow:0 4px 22px rgba(180,120,0,0.45),0 1px 6px rgba(0,0,0,0.6)} 50%{box-shadow:0 4px 36px rgba(210,150,0,0.72),0 1px 6px rgba(0,0,0,0.6)} }
+@keyframes shimmer   { 0%{background-position:-220% center} 100%{background-position:220% center} }
+@keyframes optPop    { 0%{transform:scale(1)} 40%{transform:scale(0.97)} 100%{transform:scale(1)} }
+@keyframes checkIn   { from{transform:scale(0) rotate(-20deg);opacity:0} to{transform:scale(1) rotate(0deg);opacity:1} }
+
+/* ─── STEPS CONTAINER ─────────────────────────────────── */
+.steps { flex:1; position:relative; }
+.step {
+  display: none;
+  flex-direction: column;
+  padding: 20px 22px 30px;
+}
+.step.active  { display:flex; animation: fadeUp 0.4s ease forwards; }
+.step.leaving { animation: fadeOut 0.24s ease forwards; pointer-events:none; }
+
+/* ─── TYPOGRAPHY ──────────────────────────────────────── */
+.title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 26px;
+  font-weight: 900;
+  color: #ffffff;
+  text-align: center;
+  line-height: 1.35;
+  margin-top: 18px;
+  letter-spacing: -0.3px;
+}
+.title em { font-style:normal; color:#f5d060; }
+
+.body-text {
+  font-size: 15px;
+  color: #b8b0a0;
+  text-align: center;
+  line-height: 1.72;
+  margin-top: 13px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+.body-text strong { color:#f5d060; font-weight:700; }
+
+/* ─── INPUT LABEL ─────────────────────────────────────── */
+.input-label {
+  font-size: 15px;
+  color: #e8e0d0;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 10px;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ─── IMAGE BOX ───────────────────────────────────────── */
+.img-box {
+  width: 100%;
+  border-radius: 12px;
+  background: #111320;
+  border: 1px solid #1e2030;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #252538;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.img-box-icon { font-size: 40px; opacity:0.3; }
+.img-box img  { width:100%; display:block; border-radius:12px; }
+
+/* ─── INSTRUCTION BOX ─────────────────────────────────── */
+.instr-box {
+  background: #0f0f18;
+  border: 1px solid #1e1c16;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+.instr-box p {
+  font-size: 13.5px;
+  color: #c8bfae !important;
+  line-height: 1.68;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+.instr-box p strong {
+  color: #d4a820;
+  font-weight: 700;
+}
+
+/* ─── CTA BUTTON ──────────────────────────────────────── */
+.btn {
+  display: block;
+  width: 100%;
+  padding: 18px 16px;
+  background: linear-gradient(135deg, #e0b030 0%, #c09020 40%, #a07010 100%);
+  color: #1a0d00;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  text-align: center;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+  margin-top: auto;
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  animation: btnGlow 2.8s ease infinite;
+  /* Top shine */
+  border-top: 1px solid rgba(255,230,120,0.35);
+}
+/* Shimmer sweep */
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg,
+    transparent 30%,
+    rgba(255,255,255,0.18) 50%,
+    transparent 70%);
+  background-size: 220% 100%;
+  animation: shimmer 3.5s ease infinite;
+}
+.btn:hover  { filter: brightness(1.08); }
+.btn:active { transform: scale(0.982); filter: brightness(0.95); animation: none;
+  box-shadow: 0 2px 12px rgba(160,100,0,0.4); }
+
+/* ─── FOOTER TAG ──────────────────────────────────────── */
+.footer-tag {
+  font-size: 12.5px;
+  color: #8a8070;
+  text-align: center;
+  margin-top: 10px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
+/* ─── DIVIDER ─────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #2a2618, transparent);
+  margin: 16px 0;
+}
+
+/* ─── INPUT ───────────────────────────────────────────── */
+.input-field {
+  width: 100%;
+  padding: 16px 18px;
+  background: #0e0f1a;
+  border: 1.5px solid #26263a;
+  border-radius: 10px;
+  color: #f0e8d5;
+  font-size: 17px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color .22s, box-shadow .22s;
+  margin-bottom: 18px;
+  text-align: center;
+}
+.input-field:focus {
+  border-color: #c9a227;
+  box-shadow: 0 0 0 3px rgba(201,162,39,0.15);
+}
+.input-field::placeholder { color: #32302a; }
+.input-field.error { border-color: #8b2020 !important; box-shadow: 0 0 0 3px rgba(139,32,32,0.2) !important; }
+
+/* ─── SLIDESHOW STEP 2 ────────────────────────────────── */
+.slide-section {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid #1e1c14;
+}
+.slide-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #d8d0c0;
+  text-align: center;
+  margin-bottom: 14px;
+  line-height: 1.45;
+  font-family: 'Inter', sans-serif;
+}
+.slide-title strong { color:#f5d060; }
+
+.slideshow-wrap {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  position: relative;
+}
+.slideshow-track {
+  display: flex;
+  transition: transform 0.52s cubic-bezier(.4,0,.2,1);
+  will-change: transform;
+}
+.slide-item { min-width:100%; flex-shrink:0; }
+.slide-item img {
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+  object-fit: cover;
+  max-height: 210px;
+}
+
+.slide-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 11px;
+}
+.sdot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #2e2c24;
+  transition: background .3s, transform .3s, width .3s;
+}
+.sdot.on { background:#c9a227; transform:scale(1.3); }
+
+/* ─── QUIZ OPTIONS ────────────────────────────────────── */
+.q-sub {
+  font-size: 14px;
+  color: #b0a890;
+  text-align: center;
+  margin-top: 10px;
+  line-height: 1.55;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+.opts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+  flex: 1;
+}
+
+/* ── 3D OPTION BUTTON ── */
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 15px 14px;
+  /* 3D raised gradient */
+  background: linear-gradient(180deg, #1e1e2a 0%, #131318 100%);
+  border-radius: 11px;
+  cursor: pointer;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  /* 3D border: top lighter, bottom darker */
+  border-top:    1.5px solid #38363e;
+  border-left:   1.5px solid #28262e;
+  border-right:  1.5px solid #1e1c24;
+  border-bottom: 1.5px solid #0c0c10;
+  /* raised shadow */
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.55),
+    0 1px 0 rgba(255,255,255,0.05) inset,
+    0 -1px 0 rgba(0,0,0,0.4) inset;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s;
+}
+.opt:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 6px 18px rgba(0,0,0,0.6),
+    0 1px 0 rgba(255,255,255,0.07) inset,
+    0 -1px 0 rgba(0,0,0,0.4) inset;
+  border-top-color: rgba(201,162,39,0.5);
+}
+.opt:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 1px 5px rgba(0,0,0,0.5),
+    0 1px 0 rgba(255,255,255,0.03) inset;
+}
+.opt.sel {
+  background: linear-gradient(180deg, #1e1a0c 0%, #110e04 100%);
+  border-top-color:    rgba(201,162,39,0.7);
+  border-left-color:   rgba(201,162,39,0.35);
+  border-right-color:  rgba(201,162,39,0.25);
+  border-bottom-color: rgba(120,80,0,0.5);
+  box-shadow:
+    0 4px 16px rgba(0,0,0,0.5),
+    0 0 18px rgba(201,162,39,0.15),
+    0 1px 0 rgba(255,220,80,0.1) inset;
+  transform: translateY(0);
+}
+/* Left gold accent on selected */
+.opt.sel::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #f5d060, #c9a227);
+  border-radius: 11px 0 0 11px;
+}
+
+/* ── ICON ── */
+.opt-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  transition: transform .2s;
+  /* Icon 3D */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.07) inset;
+}
+.opt.sel .opt-icon { transform: scale(1.06); }
+
+.ic-green  { background: linear-gradient(145deg, #1e6030, #123820); }
+.ic-red    { background: linear-gradient(145deg, #8c1c1c, #5c0e0e); }
+.ic-blue   { background: linear-gradient(145deg, #1a4898, #0e2e60); }
+.ic-gold   { background: linear-gradient(145deg, #8a6008, #5a3e04); }
+.ic-orange { background: linear-gradient(145deg, #965010, #5e2e06); }
+.ic-gray   { background: linear-gradient(145deg, #3a3a52, #222230); }
+
+/* ── TEXT ── */
+.opt-text {
+  font-size: 15.5px;
+  color: #e8e0ce;
+  font-weight: 700;
+  line-height: 1.3;
+  font-family: 'Inter', sans-serif;
+  flex: 1;
+}
+.opt.sel .opt-text { color: #f8eecc; }
+
+/* ── CHECKMARK ── */
+.opt-check {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 2px solid #2e2c3a;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: transparent;
+  transition: all .2s;
+  background: #0e0e18;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.5) inset;
+}
+.opt.sel .opt-check {
+  background: linear-gradient(135deg, #f0c840, #c9a020);
+  border-color: #c9a227;
+  color: #1a0e00;
+  box-shadow: 0 0 8px rgba(201,162,39,0.4);
+  animation: checkIn .25s ease forwards;
+}
+
+.quiz-note {
+  font-size: 13px;
+  color: #48443a;
+  text-align: center;
+  margin-top: 14px;
+  line-height: 1.6;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ─── TRANSITION STEP 5 ───────────────────────────────── */
+.trans-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 18px;
+  gap: 16px;
+}
+.trans-body p {
+  font-size: 15.5px;
+  color: #ddd6c8;
+  line-height: 1.7;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+.trans-body p strong {
+  color: #f0c030;
+  font-weight: 700;
+}
+
+/* ─── TESTIMONIALS STEP 6 ─────────────────────────────── */
+.test-imgs-wrap {
+  width: 100%;
+  margin: 14px 0 6px;
+  border-radius: 12px;
+  overflow: hidden;        /* ESSENCIAL para o slide funcionar */
+}
+.test-img-slide {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(.4,0,.2,1);
+  will-change: transform;
+}
+.test-img-item {
+  min-width: 100%;
+  flex-shrink: 0;
+}
+.test-img-item img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  max-height: 230px;
+  border-radius: 0;
+}
+
+/* ── SLIDE NAV ARROWS ─────────────────────── */
+.slide-nav-wrap {
+  position: relative;
+  width: 100%;
+}
+.slide-nav-wrap .slide-arr {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: rgba(10,10,18,0.72);
+  border: 1px solid rgba(201,162,39,0.35);
+  color: #f0c840;
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background .18s, border-color .18s, transform .15s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.slide-arr:active { transform: translateY(-50%) scale(0.92); }
+.slide-arr:hover  { background: rgba(30,25,8,0.85); border-color: rgba(201,162,39,0.7); }
+.slide-arr.left  { left: 8px; }
+.slide-arr.right { right: 8px; }
+
+/* WhatsApp slide */
+.wh-imgs-wrap {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 12px;
+  background: #0e0f18;
+}
+.wh-img-slide {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(.4,0,.2,1);
+  will-change: transform;
+}
+.wh-img-item {
+  min-width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0e0f18;
+  padding: 12px;
+  min-height: 280px;
+}
+.wh-img-item img {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+}
+
+.chat-card {
+  background: #101218;
+  border: 1px solid #1e2030;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 10px;
+}
+.chat-card p {
+  font-size: 14px;
+  color: #b8b0a0;
+  line-height: 1.72;
+  font-style: italic;
+  font-family: 'Inter', sans-serif;
+}
+.chat-time {
+  font-size: 11px;
+  color: #48443a;
+  text-align: right;
+  margin-top: 8px;
+  font-family: 'Inter', sans-serif;
+}
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 13px;
+}
+.dot { width:8px; height:8px; border-radius:50%; background:#1e1e2e; transition: background .3s, transform .3s; }
+.dot.on { background:#c9a227; transform:scale(1.3); }
+
+/* ─── LOADING STEP 7 ──────────────────────────────────── */
+.load-pct {
+  font-family: 'Inter', sans-serif;
+  font-size: 58px;
+  font-weight: 800;
+  color: #f5d060;
+  text-align: center;
+  margin: 16px 0 4px;
+  line-height: 1;
+  text-shadow: 0 0 30px rgba(245,208,96,0.4);
+}
+.load-bar-wrap {
+  width: calc(100% + 44px); /* full bleed além do padding do step */
+  margin: 0 -22px 22px -22px;
+  height: 5px;
+  background: #1a1810;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.load-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #8a5e00, #d4a020, #f5d060, #d4a020);
+}
+.load-wait {
+  font-size: 17px;
+  color: #ddd4c0;
+  text-align: center;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 6px;
+}
+.load-sub {
+  font-size: 15px;
+  color: #7a7060;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 18px;
+}
+.load-note {
+  font-size: 15px;
+  text-align: center;
+  line-height: 1.7;
+  margin-top: 16px;
+  font-family: 'Inter', sans-serif;
+}
+.load-note strong { color:#f5d060; font-weight:700; }
+.load-note span   { color:#b8b0a0; }
+.pulse { animation: pulse 1.8s ease infinite; }
+
+/* ─── VSL STEP 8 ──────────────────────────────────────── */
+#step-8 {
+  padding-bottom: 80px;
+}
+vturb-smartplayer {
+  display: block !important;
+  width: 100% !important;
+  max-width: 430px !important;
+  margin: 12px auto 0 !important;
+  /* garante que o botão CTA injetado não seja clipado */
+  overflow: visible !important;
+}
+.vsl-box {
+  width: 100%;
+  aspect-ratio: 9/16;
+  max-height: 460px;
+  border-radius: 12px;
+  background: #090a10;
+  border: 1px solid #1e2030;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  margin: 16px 0 12px;
+}
+.vsl-play { font-size: 56px; opacity:0.2; }
+.vsl-ph   { font-size:12px; color:#252538; text-transform:uppercase; letter-spacing:1.5px; font-family:'Inter',sans-serif; }
+.vsl-badge {
+  position: absolute;
+  bottom: 22px; left:0; right:0;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: #f5d060;
+  text-shadow: 0 2px 18px rgba(0,0,0,0.9);
+}
+.vsl-footer {
+  font-size: 13px;
+  color: #48443a;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+}
+.vsl-footer strong { color:#c9a227; }
+
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- PROGRESS BAR -->
+  <div class="prog-wrap">
+    <div class="prog-fill" id="progBar"></div>
+  </div>
+
+  <!-- STEP LABEL PILL -->
+  <div class="label-wrap">
+    <div class="label-pill" id="stepLabel">MENSAJE URGENTE PARA TI</div>
+  </div>
+
+  <div class="steps">
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- STEP 1 — INTRO                                   -->
+    <!-- ════════════════════════════════════════════════ -->
+    <div class="step active" id="step-1" style="padding: 16px 20px 24px;">
+
+      <h1 class="title" style="font-size:22px; margin-top:12px; line-height:1.38;">
+        Existe una oración poderosa escondida por siglos que va a desbloquear aquello que has estado
+        <em>pidiendo en silencio.</em>
+      </h1>
+
+      <p class="body-text" style="font-size:14px; margin-top:10px; line-height:1.68;">
+        Miles de personas la están usando hoy para redescubrir la
+        <strong>prosperidad, paz, claridad y nuevas oportunidades</strong>,
+        incluso cuando todo parecía perdido.
+      </p>
+
+      <!-- ÁNGEL IMAGE -->
+      <div class="img-box" style="height:auto; margin:14px 0;">
+        <img src="img quiz/e1.jpg" alt="Ángel" style="width:100%; border-radius:10px; display:block;"/>
+      </div>
+
+      <div class="instr-box" style="margin-bottom:14px;">
+        <p>En los próximos pasos, responderás algunas preguntas simples
+        para descubrir <strong>qué área de tu vida más necesita esta bendición hoy.</strong></p>
+      </div>
+
+      <button class="btn" onclick="goTo(2)">QUIERO RECIBIR ESTA ORACIÓN &nbsp;→</button>
+      <p class="footer-tag">No llegaste aquí por casualidad.</p>
+    </div>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- STEP 2 — NOMBRE                                  -->
+    <!-- ════════════════════════════════════════════════ -->
+    <div class="step" id="step-2">
+
+      <h2 class="title">¿Cómo te llamas?</h2>
+      <p class="body-text">
+        Escribe tu primer nombre para que el siguiente paso sea preparado
+        de forma más personal para ti.
+      </p>
+
+      <div style="margin-top:18px;">
+        <label class="input-label" for="nameInput">Escribe tu primer nombre</label>
+        <input class="input-field" id="nameInput" type="text"
+               placeholder="Ej: María" autocomplete="given-name" inputmode="text"/>
+      </div>
+
+      <button class="btn" onclick="handleName()">CONTINUAR &nbsp;→</button>
+      <p class="footer-tag">No llegaste aquí por casualidad.</p>
+
+      <!-- SLIDESHOW SECTION -->
+      <div class="slide-section">
+        <p class="slide-title">Mira testimonios de personas que sintieron <strong>cambios reales</strong></p>
+
+        <div class="slideshow-wrap">
+          <div class="slideshow-track" id="slideTrack">
+            <div class="slide-item"><img src="img quiz/e2dp1.webp" alt="Testimonio 1"/></div>
+            <div class="slide-item"><img src="img quiz/e2dp2.webp" alt="Testimonio 2"/></div>
+            <div class="slide-item"><img src="img quiz/e2dp3.webp" alt="Testimonio 3"/></div>
+            <div class="slide-item"><img src="img quiz/e2dp4.webp" alt="Testimonio 4"/></div>
+          </div>
+        </div>
+
+        <div class="slide-dots" id="slideDots">
+          <div class="sdot on"></div>
+          <div class="sdot"></div>
+          <div class="sdot"></div>
+          <div class="sdot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- STEP 3 — PREGUNTA 1                              -->
+    <!-- ════════════════════════════════════════════════ -->
+    <div class="step" id="step-3">
+
+      <h2 class="title">¿En qué área sientes que tu vida está más <em>bloqueada?</em></h2>
+      <p class="q-sub">Elige la opción que más representa lo que estás viviendo hoy.</p>
+
+      <div class="opts">
+        <button class="opt" onclick="pick(this,4)">
+          <div class="opt-icon ic-gold">💸</div>
+          <span class="opt-text">Finanzas bloqueadas</span>
+          <div class="opt-check">✓</div>
+        </button>
+        <button class="opt" onclick="pick(this,4)">
+          <div class="opt-icon ic-red">💔</div>
+          <span class="opt-text">Relaciones</span>
+          <div class="opt-check">✓</div>
+        </button>
+        <button class="opt" onclick="pick(this,4)">
+          <div class="opt-icon ic-orange">🙏</div>
+          <span class="opt-text">En el área de la salud</span>
+          <div class="opt-check">✓</div>
+        </button>
+        <button class="opt" onclick="pick(this,4)">
+          <div class="opt-icon ic-gold">🏠</div>
+          <span class="opt-text">Protección familiar</span>
+          <div class="opt-check">✓</div>
+        </button>
+      </div>
+
+      <p class="quiz-note">Responde con sinceridad. Tu oración será<br>dirigida a partir de tus respuestas.</p>
+    </div>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- STEP 4 — PREGUNTA 2                              -->
+    <!-- ════════════════════════════════════════════════ -->
+    <div class="step" id="step-4">
+
+      <h2 class="title">¿Y qué es lo que más ha <em>angustiado tu corazón?</em></h2>
+
+      <div class="opts" style="margin-top:24px;">
+        <button class="opt" onclick="pick(this,5)">
+          <div class="opt-icon ic-gold">😔</div>
+          <span class="opt-text">Parece que todo sigue bloqueado</span>
+          <div class="opt-check">✓</div>
+        </button>
+        <button class="opt" onclick="pick(this,5)">
+          <div class="opt-icon ic-gold">😣</div>
+          <span class="opt-text">Perdí la paz y vivo con miedo</span>
+          <div class="opt-check">✓</div>
+        </button>
+        <button class="opt" onclick="pick(this,5)">
+          <div class="opt-icon ic-orange">⏳</div>
+          <span class="opt-text">Ya esperé demasiado y no aguanto más</span>
+          <div class="opt-check">✓</div>
+        </button>
+        <button class="opt" onclick="pick(this,5)">
+          <div class="opt-icon ic-gray">🕊️</div>
+          <span class="opt-text">Necesito una señal clara para continuar</span>
+          <div class="opt-check">✓</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- STEP 5 — AVISO IMPORTANTE                        -->
+    <!-- ════════════════════════════════════════════════ -->
+    <div class="step" id="step-5">
+
+      <h2 class="title" style="color:#ffffff;">No llegaste hasta aquí por casualidad.</h2>
+
+      <div class="trans-body">
+        <p><strong>Existe una bendición lista</strong> para ser liberada en tu vida.</p>
+        <p>El Señor escuchó tu llanto, vio tu lucha y sabe exactamente lo que falta para que el milagro suceda.</p>
+        <p><strong>No te rindas ahora.</strong> Algo muy importante está llegando, una oportunidad enviada por Dios para cambiar tu destino.</p>
+        <p>Mira lo que les pasó a personas que decidieron creer y seguir hasta el final.</p>
+      </div>
+
+      <button class="btn" onclick="goTo(6)" style="margin-top:28px;">QUIERO CONTINUAR &nbsp;→</button>
+    </div>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- STEP 6 — TESTIMONIOS                             -->
+    <!-- ════════════════════════════════════════════════ -->
+    <div class="step" id="step-6">
+
+      <h2 class="title">Mira algunos testimonios que <em>nos llegaron</em></h2>
+
+      <div class="slide-nav-wrap">
+        <button class="slide-arr left"  onclick="manualTest(-1)">&#8249;</button>
+        <div class="test-imgs-wrap">
+          <div class="test-img-slide" id="testImgTrack">
+            <div class="test-img-item"><img src="img quiz/test1.webp" alt="Testimonio 1"/></div>
+            <div class="test-img-item"><img src="img quiz/test2.jpg"  alt="Testimonio 2"/></div>
+            <div class="test-img-item"><img src="img quiz/test3.png"  alt="Testimonio 3"/></div>
+          </div>
+        </div>
+        <button class="slide-arr right" onclick="manualTest(1)">&#8250;</button>
+      </div>
+      <div class="slide-dots" id="testDots" style="margin-top:10px;">
+        <div class="sdot on"></div>
+        <div class="sdot"></div>
+        <div class="sdot"></div>
+      </div>
+
+      <p class="body-text" style="margin-top:8px;">
+        Esta oración no es solo sobre cuestiones financieras.
+        <strong>Mira también otros testimonios que recibimos.</strong>
+      </p>
+
+      <!-- WhatsApp screenshots slide -->
+      <div class="slide-nav-wrap">
+        <button class="slide-arr left"  onclick="manualWh(-1)">&#8249;</button>
+        <div class="wh-imgs-wrap">
+          <div class="wh-img-slide" id="whImgTrack">
+            <div class="wh-img-item"><img src="img quiz/wh1.png" alt="Testimonio WhatsApp 1"/></div>
+            <div class="wh-img-item"><img src="img quiz/wh2.png" alt="Testimonio WhatsApp 2"/></div>
+            <div class="wh-img-item"><img src="img quiz/wh3.png" alt="Testimonio WhatsApp 3"/></div>
+            <div class="wh-img-item"><img src="img quiz/wh4.png" alt="Testimonio WhatsApp 4"/></div>
+          </div>
+        </div>
+        <button class="slide-arr right" onclick="manualWh(1)">&#8250;</button>
+      </div>
+      <div class="slide-dots" id="whDots" style="margin-top:10px;">
+        <div class="sdot on"></div>
+        <div class="sdot"></div>
+        <div class="sdot"></div>
+        <div class="sdot"></div>
+      </div>
+
+      <button class="btn" onclick="goTo(7)" style="margin-top:18px;">CONTINUAR &nbsp;→</button>
+    </div>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- STEP 7 — LOADING                                 -->
+    <!-- ════════════════════════════════════════════════ -->
+    <div class="step" id="step-7" style="padding-top:0;">
+
+      <!-- Barra inline igual ao original — logo abaixo do label pill -->
+      <div class="load-bar-wrap">
+        <div class="load-bar" id="loadBar"></div>
+      </div>
+
+      <div class="load-pct" id="pctText">0%</div>
+
+      <p class="load-wait pulse">Espera un momento...</p>
+      <p class="load-sub">Tu mensaje está siendo preparado con cuidado.</p>
+
+      <div class="img-box" style="height:auto;">
+        <img src="img quiz/orando.jpg" alt="Personas orando" style="width:100%; display:block; border-radius:12px;"/>
+      </div>
+
+      <p class="load-note">
+        <strong>Estamos organizando tus respuestas</strong>
+        <span> para liberar el mensaje que necesitas escuchar ahora.</span>
+      </p>
+    </div>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- STEP 8 — VSL                                     -->
+    <!-- ════════════════════════════════════════════════ -->
+    <div class="step" id="step-8">
+
+      <h2 class="title">Ahora escucha con atención: <em>este mensaje es para ti</em></h2>
+
+      <vturb-smartplayer id="vid-6a518ffa011c00d98c0aa7fd" style="display:block;margin:16px auto 12px;width:100%;max-width:430px;">
+        <div class="vturb-player-placeholder" style="position:relative;width:100%;padding:177.77777777777777% 0 0;z-index:0;background-color:black;"></div>
+      </vturb-smartplayer>
+      <script type="text/javascript">
+        var s=document.createElement("script");
+        s.src="https://scripts.converteai.net/29f9c03e-6192-4476-9f33-ccf0b7631e12/players/6a518ffa011c00d98c0aa7fd/v4/player.js";
+        s.async=true;
+        document.head.appendChild(s);
+      </script>
+
+      <p class="vsl-footer" style="margin-top:20px;">Mira hasta el <strong>final</strong> para recibir la orientación completa.</p>
+    </div>
+
+  </div><!-- /steps -->
+</div><!-- /app -->
+
+<script>
+/* ─ STATE ─────────────────────────────────── */
+let cur = 1;
+const CFG = {
+  1:{ label:'MENSAJE URGENTE PARA TI', pct:8   },
+  2:{ label:'ANTES DE CONTINUAR',      pct:18  },
+  3:{ label:'PREGUNTA 1',              pct:33  },
+  4:{ label:'PREGUNTA 2',              pct:50  },
+  5:{ label:'AVISO IMPORTANTE',        pct:63  },
+  6:{ label:'TESTIMONIOS',             pct:77  },
+  7:{ label:'LIBERACIÓN EN PROCESO',   pct:90  },
+  8:{ label:'ORACIÓN LIBERADA',        pct:100 },
+};
+
+/* ─ NAVIGATE ──────────────────────────────── */
+function goTo(n) {
+  const oldEl = document.getElementById('step-' + cur);
+  const newEl = document.getElementById('step-' + n);
+  oldEl.classList.add('leaving');
+  setTimeout(() => {
+    oldEl.classList.remove('active','leaving');
+    newEl.classList.add('active');
+    cur = n;
+    document.getElementById('stepLabel').textContent   = CFG[n].label;
+    document.getElementById('progBar').style.width     = CFG[n].pct + '%';
+    window.scrollTo({top:0, behavior:'smooth'});
+    if (n === 2) { slideIdx = 0; updateSlide(); startSlideshow(); }
+    if (n !== 2 && slideTimer) { clearInterval(slideTimer); slideTimer = null; }
+    if (n === 6) {
+      testIdx = 0; updateTestSlide(); startTestSlideshow();
+      whIdx = 0;   updateWhSlide();  startWhSlideshow();
+    }
+    if (n !== 6) {
+      if (testTimer) { clearInterval(testTimer); testTimer = null; }
+      if (whTimer)   { clearInterval(whTimer);   whTimer   = null; }
+    }
+    if (n === 7) startLoading();
+  }, 230);
+}
+
+/* ─ SLIDESHOW step 2 ──────────────────────── */
+let slideIdx = 0;
+const totalSlides = 4;
+let slideTimer = null;
+
+/* ─ SLIDESHOW testimonios (test1-3) ───────── */
+let testIdx = 0;
+const totalTestSlides = 3;
+let testTimer = null;
+
+function startTestSlideshow() {
+  if (testTimer) clearInterval(testTimer);
+  testTimer = setInterval(() => {
+    testIdx = (testIdx + 1) % totalTestSlides;
+    updateTestSlide();
+  }, 3000);
+}
+function updateTestSlide() {
+  const track = document.getElementById('testImgTrack');
+  const dots  = document.querySelectorAll('#testDots .sdot');
+  if (track) track.style.transform = `translateX(-${testIdx * 100}%)`;
+  dots.forEach((d,i) => d.classList.toggle('on', i === testIdx));
+}
+function manualTest(dir) {
+  testIdx = (testIdx + dir + totalTestSlides) % totalTestSlides;
+  updateTestSlide();
+  // pausa 6s antes de retomar auto
+  if (testTimer) clearInterval(testTimer);
+  testTimer = setTimeout(() => startTestSlideshow(), 6000);
+}
+
+/* ─ SLIDESHOW WhatsApp (wh1-4) ────────────── */
+let whIdx = 0;
+const totalWhSlides = 4;
+let whTimer = null;
+
+function startWhSlideshow() {
+  if (whTimer) clearInterval(whTimer);
+  whTimer = setInterval(() => {
+    whIdx = (whIdx + 1) % totalWhSlides;
+    updateWhSlide();
+  }, 3200);
+}
+function updateWhSlide() {
+  const track = document.getElementById('whImgTrack');
+  const dots  = document.querySelectorAll('#whDots .sdot');
+  if (track) track.style.transform = `translateX(-${whIdx * 100}%)`;
+  dots.forEach((d,i) => d.classList.toggle('on', i === whIdx));
+}
+function manualWh(dir) {
+  whIdx = (whIdx + dir + totalWhSlides) % totalWhSlides;
+  updateWhSlide();
+  // pausa 6s antes de retomar auto
+  if (whTimer) clearInterval(whTimer);
+  whTimer = setTimeout(() => startWhSlideshow(), 6000);
+}
+
+function startSlideshow() {
+  if (slideTimer) clearInterval(slideTimer);
+  slideTimer = setInterval(() => {
+    slideIdx = (slideIdx + 1) % totalSlides;
+    updateSlide();
+  }, 2800);
+}
+
+function updateSlide() {
+  const track = document.getElementById('slideTrack');
+  const dots  = document.querySelectorAll('.sdot');
+  if (track) track.style.transform = `translateX(-${slideIdx * 100}%)`;
+  dots.forEach((d,i) => d.classList.toggle('on', i === slideIdx));
+}
+
+/* Restart slideshow when step 2 becomes active */
+const _origGoTo = null;
+
+/* ─ NAME ──────────────────────────────────── */
+function handleName() {
+  const inp = document.getElementById('nameInput');
+  if (!inp.value.trim()) {
+    inp.classList.add('error');
+    inp.placeholder = 'Por favor escribe tu nombre';
+    inp.focus();
+    setTimeout(() => { inp.classList.remove('error'); inp.placeholder = 'Ej: María'; }, 2200);
+    return;
+  }
+  goTo(3);
+}
+document.getElementById('nameInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleName();
+});
+
+/* ─ QUIZ PICK ─────────────────────────────── */
+function pick(btn, next) {
+  btn.parentElement.querySelectorAll('.opt').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+  setTimeout(() => goTo(next), 350);
+}
+
+/* ─ LOADING ───────────────────────────────── */
+function startLoading() {
+  const pEl = document.getElementById('pctText');
+  const bEl = document.getElementById('loadBar');
+  pEl.textContent = '0%'; bEl.style.width = '0%';
+
+  const stages = [
+    {to:28, ms:1500},
+    {to:60, ms:1000},
+    {to:82, ms:1800},
+    {to:100,ms:900 },
+  ];
+  let si=0, t0=null, from=0;
+
+  function frame(ts) {
+    if (!t0) t0 = ts;
+    const s = stages[si];
+    const p = Math.min((ts-t0)/s.ms, 1);
+    const e = p<.5 ? 2*p*p : -1+(4-2*p)*p;
+    const v = Math.round(from + (s.to-from)*e);
+    pEl.textContent = v + '%';
+    bEl.style.transition = 'none';
+    bEl.style.width = v + '%';
+    if (p<1) { requestAnimationFrame(frame); }
+    else if (++si < stages.length) { from=v; t0=null; requestAnimationFrame(frame); }
+    else { setTimeout(() => goTo(8), 500); }
+  }
+  setTimeout(() => requestAnimationFrame(frame), 280);
+}
+</script>
+</body>
+</html>
