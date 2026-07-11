@@ -27,8 +27,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body {
+    html {
       height: 100%;
+    }
+    body {
+      min-height: 100%;
       font-family: 'Inter', system-ui, sans-serif;
       background-color: #1c1610;
       background-image: url('img quiz/imagem fundo.webp');
@@ -67,8 +70,7 @@
       display: flex;
       flex-direction: column;
       position: relative;
-      overflow-x: hidden;
-      overflow-y: auto;
+      overflow: visible;
       border-left:  1.5px solid #3a2e0a;
       border-right: 1.5px solid #3a2e0a;
       border-bottom: 1.5px solid #3a2e0a;
@@ -188,7 +190,7 @@
     <div class="player-wrap">
       <div id="ifr_6a518ffa011c00d98c0aa7fd_wrapper" style="margin: 0 auto; width: 100%;">
         <div style="position: relative; padding: 177.77777777777777% 0 0 0;" id="ifr_6a518ffa011c00d98c0aa7fd_aspect">
-          <iframe frameborder="0" allowfullscreen src="about:blank" id="ifr_6a518ffa011c00d98c0aa7fd" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" referrerpolicy="origin" onload="this.onload=null,this.src='https://scripts.converteai.net/29f9c03e-6192-4476-9f33-ccf0b7631e12/players/6a518ffa011c00d98c0aa7fd/v4/embed.html'+(location.search||'?')+'&vl='+encodeURIComponent(location.href)"></iframe>
+          <iframe frameborder="0" allowfullscreen allow="autoplay; fullscreen; encrypted-media" src="about:blank" id="ifr_6a518ffa011c00d98c0aa7fd" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" referrerpolicy="origin" onload="this.onload=null,this.src='https://scripts.converteai.net/29f9c03e-6192-4476-9f33-ccf0b7631e12/players/6a518ffa011c00d98c0aa7fd/v4/embed.html'+(location.search||'?')+'&vl='+encodeURIComponent(location.href)"></iframe>
         </div>
       </div>
     </div>
