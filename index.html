@@ -14,9 +14,6 @@
     a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
     document.head.appendChild(a);
   </script>
-  <link rel="preload" href="https://scripts.converteai.net/29f9c03e-6192-4476-9f33-ccf0b7631e12/players/6a518ffa011c00d98c0aa7fd/v4/player.js" as="script">
-  <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
-  <link rel="preload" href="https://cdn.converteai.net/29f9c03e-6192-4476-9f33-ccf0b7631e12/6a518fd9a29bb525013f3324/main.m3u8" as="fetch">
   <link rel="dns-prefetch" href="https://cdn.converteai.net">
   <link rel="dns-prefetch" href="https://scripts.converteai.net">
   <link rel="dns-prefetch" href="https://images.converteai.net">
@@ -1010,9 +1007,7 @@ vturb-smartplayer {
 
       <h2 class="title">Ahora escucha con atención: <em>este mensaje es para ti</em></h2>
 
-      <vturb-smartplayer id="vid-6a518ffa011c00d98c0aa7fd" style="display:block;margin:16px auto 12px;width:100%;max-width:430px;">
-        <div class="vturb-player-placeholder" style="position:relative;width:100%;padding:177.77777777777777% 0 0;z-index:0;background-color:black;"></div>
-      </vturb-smartplayer>
+      <div id="vturb-container" style="width:100%;max-width:430px;margin:16px auto 12px;"></div>
 
       <p class="vsl-footer" style="margin-top:20px;">Mira hasta el <strong>final</strong> para recibir la orientación completa.</p>
     </div>
@@ -1035,14 +1030,14 @@ const CFG = {
   8:{ label:'ORACIÓN LIBERADA',        pct:100 },
 };
 
-/* ─ VTURB — carrega só ao entrar no step 8 ── */
-var vtuRbReady = false;
+/* ─ VTURB — injeta elemento + script apenas ao entrar no step 8 ── */
 function loadVturb() {
-  if (vtuRbReady) return;
-  vtuRbReady = true;
+  var c = document.getElementById('vturb-container');
+  if (!c || c.dataset.loaded) return;
+  c.dataset.loaded = '1';
+  c.innerHTML = '<vturb-smartplayer id="vid-6a518ffa011c00d98c0aa7fd" style="display:block;width:100%;max-width:430px;"><div style="position:relative;width:100%;padding:177.78% 0 0;background:#000;"></div></vturb-smartplayer>';
   var s = document.createElement('script');
   s.src = 'https://scripts.converteai.net/29f9c03e-6192-4476-9f33-ccf0b7631e12/players/6a518ffa011c00d98c0aa7fd/v4/player.js';
-  s.async = true;
   document.head.appendChild(s);
 }
 
