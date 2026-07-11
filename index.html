@@ -1022,26 +1022,34 @@ const CFG = {
   8:{ label:'ORACIÓN LIBERADA',        pct:100 },
 };
 
-/* ─ VTURB — injeta iframe + SDK apenas ao entrar no step 8 ── */
+/* ─ VTURB — injeta iframe apenas ao entrar no step 8 ── */
 function loadVturb() {
   var c = document.getElementById('vturb-container');
   if (!c || c.dataset.loaded) return;
   c.dataset.loaded = '1';
-  /* SDK */
-  var sdk = document.createElement('script');
-  sdk.src = 'https://scripts.converteai.net/lib/js/smartplayer-wc/v4/sdk.js';
-  sdk.async = true;
-  document.head.appendChild(sdk);
-  /* iframe embed */
-  c.innerHTML = '<div id="ifr_6a518ffa011c00d98c0aa7fd_wrapper" style="margin:0 auto;width:100%;max-width:400px;">'
-    + '<div style="position:relative;padding:177.77777777777777% 0 0 0;" id="ifr_6a518ffa011c00d98c0aa7fd_aspect">'
-    + '<iframe frameborder="0" allowfullscreen id="ifr_6a518ffa011c00d98c0aa7fd"'
-    + ' style="position:absolute;top:0;left:0;width:100%;height:100%;"'
-    + ' referrerpolicy="origin"'
-    + ' src="https://scripts.converteai.net/29f9c03e-6192-4476-9f33-ccf0b7631e12/players/6a518ffa011c00d98c0aa7fd/v4/embed.html'
-    + (location.search || '?') + '&vl=' + encodeURIComponent(location.href) + '">'
-    + '</iframe>'
-    + '</div></div>';
+
+  var wrapper = document.createElement('div');
+  wrapper.style.cssText = 'margin:0 auto;width:100%;max-width:400px;';
+
+  var aspect = document.createElement('div');
+  aspect.style.cssText = 'position:relative;padding:177.77777777777777% 0 0 0;';
+
+  var ifr = document.createElement('iframe');
+  ifr.id = 'ifr_6a518ffa011c00d98c0aa7fd';
+  ifr.frameBorder = '0';
+  ifr.setAttribute('allowfullscreen', '');
+  ifr.setAttribute('referrerpolicy', 'origin');
+  ifr.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;';
+  ifr.src = 'about:blank';
+  ifr.onload = function() {
+    this.onload = null;
+    this.src = 'https://scripts.converteai.net/29f9c03e-6192-4476-9f33-ccf0b7631e12/players/6a518ffa011c00d98c0aa7fd/v4/embed.html'
+      + (location.search || '?') + '&vl=' + encodeURIComponent(location.href);
+  };
+
+  aspect.appendChild(ifr);
+  wrapper.appendChild(aspect);
+  c.appendChild(wrapper);
 }
 
 /* ─ CLEAR any timer regardless of whether it was set/interval ── */
