@@ -350,10 +350,9 @@ body {
 .slide-item { min-width:100%; flex-shrink:0; }
 .slide-item img {
   width: 100%;
+  height: auto;
   display: block;
   border-radius: 12px;
-  object-fit: cover;
-  max-height: 210px;
 }
 
 .slide-dots {
@@ -553,10 +552,9 @@ body {
 }
 .test-img-item img {
   width: 100%;
+  height: auto;
   display: block;
-  object-fit: cover;
-  max-height: 230px;
-  border-radius: 0;
+  border-radius: 10px;
 }
 
 /* ── SLIDE NAV ARROWS ─────────────────────── */
@@ -607,12 +605,11 @@ body {
   align-items: center;
   justify-content: center;
   background: #0e0f18;
-  padding: 12px;
-  min-height: 280px;
+  padding: 10px;
 }
 .wh-img-item img {
   width: 100%;
-  max-width: 340px;
+  max-width: 100%;
   height: auto;
   display: block;
   object-fit: contain;
@@ -1040,7 +1037,6 @@ function loadVturb() {
 
 /* ─ NAVIGATE ──────────────────────────────── */
 function goTo(n) {
-  if (n === 8) loadVturb();
   const oldEl = document.getElementById('step-' + cur);
   const newEl = document.getElementById('step-' + n);
   oldEl.classList.add('leaving');
@@ -1061,7 +1057,7 @@ function goTo(n) {
       if (testTimer) { clearInterval(testTimer); testTimer = null; }
       if (whTimer)   { clearInterval(whTimer);   whTimer   = null; }
     }
-    if (n === 7) startLoading();
+    if (n === 7) { loadVturb(); startLoading(); }
   }, 230);
 }
 
@@ -1192,7 +1188,6 @@ function startLoading() {
       document.getElementById('stepLabel').textContent = CFG[8].label;
       document.getElementById('progBar').style.width   = CFG[8].pct + '%';
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      loadVturb();
     }, 500);
   }
 
