@@ -989,12 +989,6 @@ vturb-smartplayer {
       <vturb-smartplayer id="vid-6a518ffa011c00d98c0aa7fd" style="display:block;margin:16px auto 12px;width:100%;max-width:430px;">
         <div class="vturb-player-placeholder" style="position:relative;width:100%;padding:177.77777777777777% 0 0;z-index:0;background-color:black;"></div>
       </vturb-smartplayer>
-      <script type="text/javascript">
-        var s=document.createElement("script");
-        s.src="https://scripts.converteai.net/29f9c03e-6192-4476-9f33-ccf0b7631e12/players/6a518ffa011c00d98c0aa7fd/v4/player.js";
-        s.async=true;
-        document.head.appendChild(s);
-      </script>
 
       <p class="vsl-footer" style="margin-top:20px;">Mira hasta el <strong>final</strong> para recibir la orientación completa.</p>
     </div>
@@ -1016,8 +1010,20 @@ const CFG = {
   8:{ label:'ORACIÓN LIBERADA',        pct:100 },
 };
 
+/* ─ VTURB — carrega só ao entrar no step 8 ── */
+var vtuRbReady = false;
+function loadVturb() {
+  if (vtuRbReady) return;
+  vtuRbReady = true;
+  var s = document.createElement('script');
+  s.src = 'https://scripts.converteai.net/29f9c03e-6192-4476-9f33-ccf0b7631e12/players/6a518ffa011c00d98c0aa7fd/v4/player.js';
+  s.async = true;
+  document.head.appendChild(s);
+}
+
 /* ─ NAVIGATE ──────────────────────────────── */
 function goTo(n) {
+  if (n === 8) loadVturb();
   const oldEl = document.getElementById('step-' + cur);
   const newEl = document.getElementById('step-' + n);
   oldEl.classList.add('leaving');
