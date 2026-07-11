@@ -708,14 +708,6 @@ body {
 #step-8 {
   padding-bottom: 80px;
 }
-vturb-smartplayer {
-  display: block !important;
-  width: 100% !important;
-  max-width: 430px !important;
-  margin: 12px auto 0 !important;
-  /* garante que o botão CTA injetado não seja clipado */
-  overflow: visible !important;
-}
 .vsl-box {
   width: 100%;
   aspect-ratio: 9/16;
@@ -1030,15 +1022,26 @@ const CFG = {
   8:{ label:'ORACIÓN LIBERADA',        pct:100 },
 };
 
-/* ─ VTURB — injeta elemento + script apenas ao entrar no step 8 ── */
+/* ─ VTURB — injeta iframe + SDK apenas ao entrar no step 8 ── */
 function loadVturb() {
   var c = document.getElementById('vturb-container');
   if (!c || c.dataset.loaded) return;
   c.dataset.loaded = '1';
-  c.innerHTML = '<vturb-smartplayer id="vid-6a518ffa011c00d98c0aa7fd" style="display:block;width:100%;max-width:430px;"><div style="position:relative;width:100%;padding:177.78% 0 0;background:#000;"></div></vturb-smartplayer>';
-  var s = document.createElement('script');
-  s.src = 'https://scripts.converteai.net/29f9c03e-6192-4476-9f33-ccf0b7631e12/players/6a518ffa011c00d98c0aa7fd/v4/player.js';
-  document.head.appendChild(s);
+  /* SDK */
+  var sdk = document.createElement('script');
+  sdk.src = 'https://scripts.converteai.net/lib/js/smartplayer-wc/v4/sdk.js';
+  sdk.async = true;
+  document.head.appendChild(sdk);
+  /* iframe embed */
+  c.innerHTML = '<div id="ifr_6a518ffa011c00d98c0aa7fd_wrapper" style="margin:0 auto;width:100%;max-width:400px;">'
+    + '<div style="position:relative;padding:177.77777777777777% 0 0 0;" id="ifr_6a518ffa011c00d98c0aa7fd_aspect">'
+    + '<iframe frameborder="0" allowfullscreen id="ifr_6a518ffa011c00d98c0aa7fd"'
+    + ' style="position:absolute;top:0;left:0;width:100%;height:100%;"'
+    + ' referrerpolicy="origin"'
+    + ' src="https://scripts.converteai.net/29f9c03e-6192-4476-9f33-ccf0b7631e12/players/6a518ffa011c00d98c0aa7fd/v4/embed.html'
+    + (location.search || '?') + '&vl=' + encodeURIComponent(location.href) + '">'
+    + '</iframe>'
+    + '</div></div>';
 }
 
 /* ─ CLEAR any timer regardless of whether it was set/interval ── */
