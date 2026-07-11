@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Oración de Prosperidad</title>
   <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+  <!-- Utmify Pixel -->
+  <script>
+    window.pixelId = "6a51b4db668e88a4f97ad716";
+    var a = document.createElement("script");
+    a.setAttribute("async", "");
+    a.setAttribute("defer", "");
+    a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+    document.head.appendChild(a);
+  </script>
   <link rel="preload" href="https://scripts.converteai.net/29f9c03e-6192-4476-9f33-ccf0b7631e12/players/6a518ffa011c00d98c0aa7fd/v4/player.js" as="script">
   <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
   <link rel="preload" href="https://cdn.converteai.net/29f9c03e-6192-4476-9f33-ccf0b7631e12/6a518fd9a29bb525013f3324/main.m3u8" as="fetch">
@@ -1175,6 +1184,70 @@ function startLoading() {
   }
   setTimeout(() => requestAnimationFrame(frame), 280);
 }
+</script>
+
+<!-- ── UTM → Green checkout passthrough ─────────────────────────── -->
+<script>
+(function () {
+  /* 1. Captura todos os parâmetros UTM + src da URL atual */
+  var UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','src','sck'];
+  function getUtmString() {
+    var p = new URLSearchParams(window.location.search);
+    var parts = [];
+    UTM_KEYS.forEach(function(k) {
+      var v = p.get(k);
+      if (v) parts.push(k + '=' + encodeURIComponent(v));
+    });
+    return parts.join('&');
+  }
+
+  /* 2. Injeta UTMs em um href preservando parâmetros já existentes */
+  function appendUtms(href) {
+    if (!href || href.startsWith('javascript') || href.startsWith('#')) return href;
+    var utms = getUtmString();
+    if (!utms) return href;
+    var sep = href.indexOf('?') === -1 ? '?' : '&';
+    return href + sep + utms;
+  }
+
+  /* 3. Atualiza todos os links de checkout presentes no DOM */
+  function patchLinks() {
+    /* Green checkout: pay.greenn.com.br ou qualquer link /checkout */
+    document.querySelectorAll('a[href]').forEach(function(a) {
+      var h = a.getAttribute('href');
+      if (h && (h.includes('greenn') || h.includes('pay.') || h.includes('checkout') || h.includes('hotmart') || h.includes('eduzz') || h.includes('kiwify') || h.includes('perfectpay'))) {
+        a.setAttribute('href', appendUtms(h));
+      }
+    });
+  }
+
+  /* 4. MutationObserver — detecta botão CTA do VTurb ao ser injetado */
+  var observer = new MutationObserver(function() {
+    patchLinks();
+  });
+  observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['href'] });
+
+  /* 5. Intercepta cliques — fallback caso o href ainda não tenha sido patchado */
+  document.addEventListener('click', function(e) {
+    var a = e.target.closest('a[href]');
+    if (!a) return;
+    var h = a.getAttribute('href');
+    if (h && (h.includes('greenn') || h.includes('pay.') || h.includes('checkout') || h.includes('hotmart') || h.includes('eduzz') || h.includes('kiwify') || h.includes('perfectpay'))) {
+      var patched = appendUtms(h);
+      if (patched !== h) {
+        e.preventDefault();
+        window.open(patched, a.target || '_self');
+      }
+    }
+  }, true);
+
+  /* 6. Roda uma vez ao carregar para links estáticos */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', patchLinks);
+  } else {
+    patchLinks();
+  }
+})();
 </script>
 </body>
 </html>
