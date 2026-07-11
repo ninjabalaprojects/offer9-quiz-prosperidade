@@ -1167,20 +1167,39 @@ function startLoading() {
     {to:82, ms:1800},
     {to:100,ms:900 },
   ];
-  let si=0, t0=null, from=0;
+  let si=0, t0=null, from=0, done=false;
+
+  /* garante que goTo(8) é chamado uma única vez */
+  function finish() {
+    if (done) return;
+    done = true;
+    pEl.textContent = '100%';
+    bEl.style.width  = '100%';
+    setTimeout(() => goTo(8), 500);
+  }
+
+  /* fallback: se rAF travar (aba em bg, tela bloqueada), avança mesmo assim */
+  var fallback = setTimeout(finish, 7500);
 
   function frame(ts) {
+    if (done) return;
     if (!t0) t0 = ts;
     const s = stages[si];
-    const p = Math.min((ts-t0)/s.ms, 1);
-    const e = p<.5 ? 2*p*p : -1+(4-2*p)*p;
-    const v = Math.round(from + (s.to-from)*e);
+    const p = Math.min((ts - t0) / s.ms, 1);
+    const e = p < .5 ? 2*p*p : -1 + (4 - 2*p)*p;
+    const v = Math.round(from + (s.to - from) * e);
     pEl.textContent = v + '%';
     bEl.style.transition = 'none';
     bEl.style.width = v + '%';
-    if (p<1) { requestAnimationFrame(frame); }
-    else if (++si < stages.length) { from=v; t0=null; requestAnimationFrame(frame); }
-    else { setTimeout(() => goTo(8), 500); }
+    if (p < 1) {
+      requestAnimationFrame(frame);
+    } else if (++si < stages.length) {
+      from = v; t0 = null;
+      requestAnimationFrame(frame);
+    } else {
+      clearTimeout(fallback);
+      finish();
+    }
   }
   setTimeout(() => requestAnimationFrame(frame), 280);
 }
