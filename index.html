@@ -1172,58 +1172,44 @@ function pick(btn, next) {
 function startLoading() {
   const pEl = document.getElementById('pctText');
   const bEl = document.getElementById('loadBar');
-  pEl.textContent = '0%'; bEl.style.width = '0%';
+  let pct = 0;
+  pEl.textContent = '0%';
+  bEl.style.transition = 'none';
+  bEl.style.width = '0%';
 
-  const stages = [
-    {to:28, ms:1500},
-    {to:60, ms:1000},
-    {to:82, ms:1800},
-    {to:100,ms:900 },
-  ];
-  let si=0, t0=null, from=0, done=false;
-
-  /* transição direta step-7 → step-8, sem depender do estado de cur */
-  function finish() {
-    if (done) return;
-    done = true;
-    pEl.textContent = '100%';
-    bEl.style.width  = '100%';
-    setTimeout(() => {
-      const s7 = document.getElementById('step-7');
-      const s8 = document.getElementById('step-8');
-      s7.classList.remove('active', 'leaving');
-      s8.classList.add('active');
-      cur = 8;
-      document.getElementById('stepLabel').textContent = CFG[8].label;
-      document.getElementById('progBar').style.width   = CFG[8].pct + '%';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 500);
+  /* velocidade não-linear: rápida no início, lenta no meio, rápida no fim */
+  function speed(p) {
+    if (p < 25)  return 1.6;
+    if (p < 55)  return 0.55;
+    if (p < 80)  return 0.85;
+    return 1.4;
   }
 
-  /* fallback: se rAF travar (aba em bg, tela bloqueada), avança mesmo assim */
-  var fallback = setTimeout(finish, 7500);
-
-  function frame(ts) {
-    if (done) return;
-    if (!t0) t0 = ts;
-    const s = stages[si];
-    const p = Math.min((ts - t0) / s.ms, 1);
-    const e = p < .5 ? 2*p*p : -1 + (4 - 2*p)*p;
-    const v = Math.round(from + (s.to - from) * e);
+  var timer = setInterval(function() {
+    pct = Math.min(pct + speed(pct) * 0.55, 99);
+    var v = Math.round(pct);
     pEl.textContent = v + '%';
-    bEl.style.transition = 'none';
-    bEl.style.width = v + '%';
-    if (p < 1) {
-      requestAnimationFrame(frame);
-    } else if (++si < stages.length) {
-      from = v; t0 = null;
-      requestAnimationFrame(frame);
-    } else {
-      clearTimeout(fallback);
-      finish();
+    bEl.style.width  = v + '%';
+
+    if (pct >= 99) {
+      clearInterval(timer);
+      /* chega a 100% e transita para step-8 */
+      setTimeout(function() {
+        pEl.textContent = '100%';
+        bEl.style.width  = '100%';
+        setTimeout(function() {
+          var s7 = document.getElementById('step-7');
+          var s8 = document.getElementById('step-8');
+          s7.classList.remove('active', 'leaving');
+          s8.classList.add('active');
+          cur = 8;
+          document.getElementById('stepLabel').textContent = CFG[8].label;
+          document.getElementById('progBar').style.width   = CFG[8].pct + '%';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 500);
+      }, 300);
     }
-  }
-  setTimeout(() => requestAnimationFrame(frame), 280);
+  }, 50); /* dispara a cada 50ms — setInterval é estável no mobile */
 }
 </script>
 
