@@ -1075,7 +1075,7 @@ function goTo(n) {
     clearAnyTimer(testTimer); testTimer = null;
     clearAnyTimer(whTimer);   whTimer   = null;
   }
-  if (n === 7) { loadVturb(); startLoading(); }
+  if (n === 7) { loadVturb(); setTimeout(startLoading, 0); }
 }
 
 /* ─ SLIDESHOW step 2 ──────────────────────── */
@@ -1181,9 +1181,9 @@ function pick(btn, next) {
 function startLoading() {
   const pEl = document.getElementById('pctText');
   const bEl = document.getElementById('loadBar');
+  if (!pEl || !bEl) return;
   let pct = 0;
   pEl.textContent = '0%';
-  bEl.style.transition = 'none';
   bEl.style.width = '0%';
 
   /* velocidade não-linear: rápida no início, lenta no meio, rápida no fim */
