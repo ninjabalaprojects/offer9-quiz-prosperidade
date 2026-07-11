@@ -158,8 +158,8 @@ body {
   flex-direction: column;
   padding: 20px 22px 30px;
 }
-.step.active  { display:flex; animation: fadeUp 0.35s ease both; }
-.step.leaving { animation: fadeOut 0.22s ease both; pointer-events:none; }
+.step.active  { display:flex; opacity:1; }
+.step.leaving { opacity:0;   pointer-events:none; transition: opacity 0.22s ease; }
 
 /* ─── TYPOGRAPHY ──────────────────────────────────────── */
 .title {
@@ -1054,18 +1054,30 @@ function clearAnyTimer(id) {
 
 /* ─ NAVIGATE ──────────────────────────────── */
 function goTo(n) {
-  if (transitioning) return; /* prevent race condition on rapid taps */
+  if (transitioning) return;
   transitioning = true;
   const oldEl = document.getElementById('step-' + cur);
   const newEl = document.getElementById('step-' + n);
   if (!oldEl || !newEl) { transitioning = false; return; }
-  oldEl.classList.add('leaving');
+  /* fade out old step */
+  oldEl.style.transition = 'opacity 0.2s ease';
+  oldEl.style.opacity = '0';
   setTimeout(() => {
+    oldEl.style.transition = '';
+    oldEl.style.opacity    = '';
+    oldEl.style.display    = '';
     oldEl.classList.remove('active','leaving');
-    oldEl.style.display  = '';
-    oldEl.style.opacity  = '';
+    /* show new step immediately visible */
+    newEl.style.opacity = '0';
     newEl.classList.add('active');
-    newEl.style.opacity  = '';
+    /* force reflow so transition fires */
+    void newEl.offsetHeight;
+    newEl.style.transition = 'opacity 0.3s ease';
+    newEl.style.opacity    = '1';
+    setTimeout(() => {
+      newEl.style.transition = '';
+      newEl.style.opacity    = '';
+    }, 320);
     cur = n;
     transitioning = false;
     document.getElementById('stepLabel').textContent   = CFG[n].label;
@@ -1219,10 +1231,15 @@ function startLoading() {
           var s7 = document.getElementById('step-7');
           var s8 = document.getElementById('step-8');
           s7.classList.remove('active', 'leaving');
-          s7.style.display  = '';
-          s7.style.opacity  = '';
+          s7.style.transition = '';
+          s7.style.display    = '';
+          s7.style.opacity    = '';
+          s8.style.opacity    = '0';
           s8.classList.add('active');
-          s8.style.opacity  = '';
+          void s8.offsetHeight; /* force reflow */
+          s8.style.transition = 'opacity 0.3s ease';
+          s8.style.opacity    = '1';
+          setTimeout(function(){ s8.style.transition = ''; s8.style.opacity = ''; }, 320);
           cur = 8;
           transitioning = false; /* reset guard in case goTo(7) set it */
           /* Safety: ensure vturb script is loaded even if goTo(7) somehow missed it */
