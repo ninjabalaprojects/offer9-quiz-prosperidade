@@ -1178,50 +1178,57 @@ function pick(btn, next) {
 }
 
 /* ─ LOADING ───────────────────────────────── */
-function startLoading() {
-  const pEl = document.getElementById('pctText');
-  const bEl = document.getElementById('loadBar');
-  if (!pEl || !bEl) return;
-  let pct = 0;
-  pEl.textContent = '0%';
-  bEl.style.width = '0%';
+function activateStep8() {
+  var s7 = document.getElementById('step-7');
+  var s8 = document.getElementById('step-8');
+  if (s7) s7.classList.remove('active');
+  if (s8) s8.classList.add('active');
+  cur = 8;
+  transitioning = false;
+  loadVturb();
+  document.getElementById('stepLabel').textContent = CFG[8].label;
+  document.getElementById('progBar').style.width   = CFG[8].pct + '%';
+  document.getElementById('app').scrollTop = 0;
+}
 
-  /* velocidade não-linear: rápida no início, lenta no meio, rápida no fim */
-  function speed(p) {
-    if (p < 25)  return 1.6;
-    if (p < 55)  return 0.55;
-    if (p < 80)  return 0.85;
-    return 1.4;
+function startLoading() {
+  var pEl = document.getElementById('pctText');
+  var bEl = document.getElementById('loadBar');
+
+  /* Fallback absoluto: vai para VSL em 5s mesmo sem animação */
+  var fallbackTimer = setTimeout(function() {
+    fallbackTimer = null;
+    activateStep8();
+  }, 5000);
+
+  if (!pEl || !bEl) return; /* elementos ausentes — fallback cuida da transição */
+
+  var DURATION = 4000; /* 4 segundos para 99% */
+  var startTime = performance.now();
+
+  function tick(now) {
+    if (fallbackTimer === null) return; /* fallback já disparou, para */
+    var elapsed = now - startTime;
+    var t = Math.min(elapsed / DURATION, 1);
+    /* curva não-linear: rápido no início e fim, lento no meio */
+    var pct = Math.round(t < 0.5
+      ? 2 * t * t * 99
+      : (1 - Math.pow(-2 * t + 2, 2) / 2) * 99);
+    pEl.textContent = pct + '%';
+    bEl.style.width  = pct + '%';
+
+    if (t < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      pEl.textContent = '100%';
+      bEl.style.width  = '100%';
+      clearTimeout(fallbackTimer);
+      fallbackTimer = null;
+      setTimeout(activateStep8, 500);
+    }
   }
 
-  var timer = setInterval(function() {
-    pct = Math.min(pct + speed(pct) * 0.55, 99);
-    var v = Math.round(pct);
-    pEl.textContent = v + '%';
-    bEl.style.width  = v + '%';
-
-    if (pct >= 99) {
-      clearInterval(timer);
-      /* chega a 100% e transita para step-8 */
-      setTimeout(function() {
-        pEl.textContent = '100%';
-        bEl.style.width  = '100%';
-        setTimeout(function() {
-          var s7 = document.getElementById('step-7');
-          var s8 = document.getElementById('step-8');
-          s7.classList.remove('active');
-          s8.classList.add('active');
-          cur = 8;
-          transitioning = false; /* reset guard in case goTo(7) set it */
-          /* Safety: ensure vturb script is loaded even if goTo(7) somehow missed it */
-          loadVturb();
-          document.getElementById('stepLabel').textContent = CFG[8].label;
-          document.getElementById('progBar').style.width   = CFG[8].pct + '%';
-          document.getElementById('app').scrollTop = 0;
-        }, 500);
-      }, 300);
-    }
-  }, 50); /* dispara a cada 50ms — setInterval é estável no mobile */
+  requestAnimationFrame(tick);
 }
 </script>
 
