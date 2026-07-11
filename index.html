@@ -150,6 +150,7 @@ body {
 @keyframes shimmer   { 0%{background-position:-220% center} 100%{background-position:220% center} }
 @keyframes optPop    { 0%{transform:scale(1)} 40%{transform:scale(0.97)} 100%{transform:scale(1)} }
 @keyframes checkIn   { from{transform:scale(0) rotate(-20deg);opacity:0} to{transform:scale(1) rotate(0deg);opacity:1} }
+@keyframes barFill   { from{width:0%} to{width:100%} }
 
 /* ─── STEPS CONTAINER ─────────────────────────────────── */
 .steps { flex:1; position:relative; }
@@ -159,6 +160,7 @@ body {
   padding: 20px 22px 30px;
 }
 .step.active  { display:flex; }
+#step-7.active .load-bar { animation: barFill 3.2s linear forwards; }
 
 /* ─── TYPOGRAPHY ──────────────────────────────────────── */
 .title {
@@ -1075,7 +1077,7 @@ function goTo(n) {
     clearAnyTimer(testTimer); testTimer = null;
     clearAnyTimer(whTimer);   whTimer   = null;
   }
-  if (n === 7) { loadVturb(); setTimeout(startLoading, 250); }
+  if (n === 7) { loadVturb(); startLoading(); }
 }
 
 /* ─ SLIDESHOW step 2 ──────────────────────── */
@@ -1192,36 +1194,20 @@ function activateStep8() {
 }
 
 function startLoading() {
+  /* Barra: CSS animation (barFill 3.2s) — sempre funciona */
+  /* Transição para VSL: setTimeout simples após 3.4s   */
+  setTimeout(activateStep8, 3400);
+
+  /* Contador numérico: best-effort */
   var pEl = document.getElementById('pctText');
-  var bEl = document.getElementById('loadBar');
-  var done = false;
-
-  /* Fallback absoluto: garante transição para VSL em 4s */
-  var guard = setTimeout(function() {
-    if (done) return;
-    done = true;
-    activateStep8();
-  }, 4000);
-
-  if (!pEl || !bEl) return;
-
-  var pct = 0;
+  if (!pEl) return;
+  var n = 0;
   pEl.textContent = '0%';
-  bEl.style.width = '0%';
-
-  /* Incrementa 1% a cada 35ms → ~3500ms para 100% */
   var iv = setInterval(function() {
-    if (done) { clearInterval(iv); return; }
-    pct = Math.min(pct + 1, 100);
-    pEl.textContent = pct + '%';
-    bEl.style.width  = pct + '%';
-    if (pct >= 100) {
-      clearInterval(iv);
-      clearTimeout(guard);
-      done = true;
-      setTimeout(activateStep8, 400);
-    }
-  }, 35);
+    n = Math.min(n + 1, 100);
+    pEl.textContent = n + '%';
+    if (n >= 100) clearInterval(iv);
+  }, 32); /* 32ms × 100 = 3200ms */
 }
 </script>
 
