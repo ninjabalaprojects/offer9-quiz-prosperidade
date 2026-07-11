@@ -1077,7 +1077,7 @@ function goTo(n) {
     clearAnyTimer(testTimer); testTimer = null;
     clearAnyTimer(whTimer);   whTimer   = null;
   }
-  if (n === 7) { loadVturb(); startLoading(); }
+  if (n === 7) { setTimeout(activateStep8, 3400); startLoading(); }
 }
 
 /* ─ SLIDESHOW step 2 ──────────────────────── */
@@ -1194,20 +1194,14 @@ function activateStep8() {
 }
 
 function startLoading() {
-  /* Barra: CSS animation (barFill 3.2s) — sempre funciona */
-  /* Transição para VSL: setTimeout simples após 3.4s   */
-  setTimeout(activateStep8, 3400);
-
-  /* Contador numérico: best-effort */
+  /* Contador numérico — apenas visual, transição já garantida pelo setTimeout em goTo */
   var pEl = document.getElementById('pctText');
   if (!pEl) return;
   var n = 0;
   pEl.textContent = '0%';
-  var iv = setInterval(function() {
-    n = Math.min(n + 1, 100);
-    pEl.textContent = n + '%';
-    if (n >= 100) clearInterval(iv);
-  }, 32); /* 32ms × 100 = 3200ms */
+  setInterval(function() {
+    if (n < 100) { n++; pEl.textContent = n + '%'; }
+  }, 32);
 }
 </script>
 
