@@ -1022,6 +1022,7 @@ vturb-smartplayer {
 <script>
 /* ─ STATE ─────────────────────────────────── */
 let cur = 1;
+let transitioning = false; /* guard against rapid double-tap */
 const CFG = {
   1:{ label:'MENSAJE URGENTE PARA TI', pct:8   },
   2:{ label:'ANTES DE CONTINUAR',      pct:18  },
@@ -1044,17 +1045,29 @@ function loadVturb() {
   document.head.appendChild(s);
 }
 
+/* ─ CLEAR any timer regardless of whether it was set/interval ── */
+function clearAnyTimer(id) {
+  if (id == null) return;
+  clearTimeout(id);
+  clearInterval(id);
+}
+
 /* ─ NAVIGATE ──────────────────────────────── */
 function goTo(n) {
+  if (transitioning) return; /* prevent race condition on rapid taps */
+  transitioning = true;
   const oldEl = document.getElementById('step-' + cur);
   const newEl = document.getElementById('step-' + n);
+  if (!oldEl || !newEl) { transitioning = false; return; }
   oldEl.classList.add('leaving');
   setTimeout(() => {
     oldEl.classList.remove('active','leaving');
-    oldEl.style.opacity = '';
+    oldEl.style.display  = '';
+    oldEl.style.opacity  = '';
     newEl.classList.add('active');
-    newEl.style.opacity = '';
+    newEl.style.opacity  = '';
     cur = n;
+    transitioning = false;
     document.getElementById('stepLabel').textContent   = CFG[n].label;
     document.getElementById('progBar').style.width     = CFG[n].pct + '%';
     document.getElementById('app').scrollTop = 0;
@@ -1065,8 +1078,10 @@ function goTo(n) {
       whIdx = 0;   updateWhSlide();  startWhSlideshow();
     }
     if (n !== 6) {
-      if (testTimer) { clearInterval(testTimer); testTimer = null; }
-      if (whTimer)   { clearInterval(whTimer);   whTimer   = null; }
+      /* FIX: testTimer / whTimer may hold a setTimeout ID (from manualTest/manualWh)
+         so we must use clearTimeout — clearInterval silently fails on setTimeout IDs */
+      clearAnyTimer(testTimer); testTimer = null;
+      clearAnyTimer(whTimer);   whTimer   = null;
     }
     if (n === 7) { loadVturb(); startLoading(); }
   }, 230);
@@ -1083,7 +1098,8 @@ const totalTestSlides = 3;
 let testTimer = null;
 
 function startTestSlideshow() {
-  if (testTimer) clearInterval(testTimer);
+  /* FIX: use clearAnyTimer — timer may be a setTimeout ID from manualTest */
+  clearAnyTimer(testTimer);
   testTimer = setInterval(() => {
     testIdx = (testIdx + 1) % totalTestSlides;
     updateTestSlide();
@@ -1099,7 +1115,8 @@ function manualTest(dir) {
   testIdx = (testIdx + dir + totalTestSlides) % totalTestSlides;
   updateTestSlide();
   // pausa 6s antes de retomar auto
-  if (testTimer) clearInterval(testTimer);
+  /* FIX: use clearTimeout (not clearInterval) because testTimer holds a setTimeout ID here */
+  clearAnyTimer(testTimer);
   testTimer = setTimeout(() => startTestSlideshow(), 6000);
 }
 
@@ -1109,7 +1126,8 @@ const totalWhSlides = 4;
 let whTimer = null;
 
 function startWhSlideshow() {
-  if (whTimer) clearInterval(whTimer);
+  /* FIX: use clearAnyTimer — timer may be a setTimeout ID from manualWh */
+  clearAnyTimer(whTimer);
   whTimer = setInterval(() => {
     whIdx = (whIdx + 1) % totalWhSlides;
     updateWhSlide();
@@ -1125,7 +1143,8 @@ function manualWh(dir) {
   whIdx = (whIdx + dir + totalWhSlides) % totalWhSlides;
   updateWhSlide();
   // pausa 6s antes de retomar auto
-  if (whTimer) clearInterval(whTimer);
+  /* FIX: use clearTimeout (not clearInterval) because whTimer holds a setTimeout ID here */
+  clearAnyTimer(whTimer);
   whTimer = setTimeout(() => startWhSlideshow(), 6000);
 }
 
@@ -1200,10 +1219,14 @@ function startLoading() {
           var s7 = document.getElementById('step-7');
           var s8 = document.getElementById('step-8');
           s7.classList.remove('active', 'leaving');
-          s7.style.opacity = '';
+          s7.style.display  = '';
+          s7.style.opacity  = '';
           s8.classList.add('active');
-          s8.style.opacity = '';
+          s8.style.opacity  = '';
           cur = 8;
+          transitioning = false; /* reset guard in case goTo(7) set it */
+          /* Safety: ensure vturb script is loaded even if goTo(7) somehow missed it */
+          loadVturb();
           document.getElementById('stepLabel').textContent = CFG[8].label;
           document.getElementById('progBar').style.width   = CFG[8].pct + '%';
           document.getElementById('app').scrollTop = 0;
